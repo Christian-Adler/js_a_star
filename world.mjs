@@ -3,8 +3,8 @@ import {Vector} from "./vector.mjs";
 
 export class World {
   constructor() {
-    this.cols = 5;
-    this.rows = 5;
+    this.cols = 50;
+    this.rows = 50;
     this.grid = new Array(this.cols);
 
     for (let i = 0; i < this.cols; i++) {
@@ -14,7 +14,21 @@ export class World {
     for (let c = 0; c < this.cols; c++) {
       for (let r = 0; r < this.rows; r++) {
         this.grid[c][r] = new Spot(new Vector(c, r));
+      }
+    }
 
+    // find neighbours
+    for (let c = 0; c < this.cols; c++) {
+      for (let r = 0; r < this.rows; r++) {
+        const actSpot = this.grid[c][r];
+        if (c > 0)
+          actSpot.addNeighbour(this.grid[c - 1][r]);
+        if (c < this.cols - 1)
+          actSpot.addNeighbour(this.grid[c + 1][r]);
+        if (r > 0)
+          actSpot.addNeighbour(this.grid[c][r - 1]);
+        if (r < this.rows - 1)
+          actSpot.addNeighbour(this.grid[c][r + 1]);
       }
     }
   }

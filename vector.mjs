@@ -62,6 +62,10 @@ class Vector {
     return Math.sqrt((this.x - other.x) ** 2 + (this.y - other.y) ** 2);
   }
 
+  manhattenDistance(other) {
+    return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
+  }
+
   normalize() {
     const norm = Vector.fromAngle(this.toRadians());
     this.x = norm.x;

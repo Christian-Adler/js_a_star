@@ -27,6 +27,9 @@ updateWorldSettings();
 const world = new World();
 const aStar = new AStar(world.getStart(), world.getEnd());
 
+const slow = false;
+let count = 0;
+
 const update = () => {
 
   ctx.fillStyle = "white";
@@ -48,6 +51,14 @@ const update = () => {
 
   ctx.restore();
 
+  if (slow) {
+    if (count > 5) {
+      count = 0;
+      aStar.next();
+    }
+    count++;
+  } else
+    aStar.next();
 
   updateWorldSettings();
 

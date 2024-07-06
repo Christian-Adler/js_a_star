@@ -1,9 +1,27 @@
 export class Spot {
-  constructor(pos, f, g, h) {
+  constructor(pos) {
     this.pos = pos;
-    this.f = f;
-    this.g = g;
-    this.h = h;
+    this.neighbours = [];
+    this.prevSpot = null;
+    this.f = 0;
+    this.g = Number.MAX_SAFE_INTEGER;
+    this.h = 0;
+  }
+
+  addNeighbour(neighbour) {
+    this.neighbours.push(neighbour);
+  }
+
+  getNeighbours() {
+    return [...this.neighbours];
+  }
+
+  distanceToSpot(other) {
+    return this.pos.distance(other.pos);
+  }
+
+  manhattenDistanceToSpot(other) {
+    return this.pos.manhattenDistance(other.pos);
   }
 
   draw(ctx, optColor) {
