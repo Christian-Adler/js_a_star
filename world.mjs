@@ -17,24 +17,41 @@ export class World {
       }
     }
 
+    for (let i = 0; i < 1000; i++) {
+      const col = Math.floor(Math.random() * this.cols);
+      const row = Math.floor(Math.random() * this.rows);
+      if (col === this.cols - 1 && row === this.cols - 1 || col === 0 && row === 0)
+        continue;
+      this.grid[col][row] = undefined;
+    }
+
     // find neighbours
     for (let c = 0; c < this.cols; c++) {
       for (let r = 0; r < this.rows; r++) {
         const actSpot = this.grid[c][r];
-        if (c > 0)
-          actSpot.addNeighbour(this.grid[c - 1][r]);
-        if (c < this.cols - 1)
-          actSpot.addNeighbour(this.grid[c + 1][r]);
-        if (r > 0)
-          actSpot.addNeighbour(this.grid[c][r - 1]);
-        if (r < this.rows - 1)
-          actSpot.addNeighbour(this.grid[c][r + 1]);
+        if (!actSpot)
+          continue;
+        let spot = this.getSpot(c - 1, r);
+        if (spot)
+          actSpot.addNeighbour(spot);
+        spot = this.getSpot(c + 1, r);
+        if (spot)
+          actSpot.addNeighbour(spot);
+
+        spot = this.getSpot(c, r - 1);
+        if (spot)
+          actSpot.addNeighbour(spot);
+        spot = this.getSpot(c, r + 1);
+        if (spot)
+          actSpot.addNeighbour(spot);
       }
     }
   }
 
   getSpot(x, y) {
-    return this.grid[x][y];
+    const col = this.grid[x];
+    if (!col) return null;
+    return col[y];
   }
 
   getStart() {
@@ -53,7 +70,10 @@ export class World {
   draw(ctx) {
     for (let c = 0; c < this.cols; c++) {
       for (let r = 0; r < this.rows; r++) {
-        const spot = this.grid[c][r];
+        const col = this.grid[c];
+        if (!col) continue;
+        const spot = col[r];
+        if (!spot) continue;
         spot.draw(ctx);
       }
     }

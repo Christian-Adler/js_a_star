@@ -13,8 +13,8 @@ export class AStar {
   }
 
   heuristicCostEstimate(spot) {
-    // return spot.manhattenDistanceToSpot(this.end);
-    return spot.distanceToSpot(this.end);
+    return spot.manhattenDistanceToSpot(this.end);
+    // return spot.distanceToSpot(this.end);
   }
 
   constructPath(spot) {
@@ -35,9 +35,12 @@ export class AStar {
     if (this.openSet.length > 0) {
       let minFIdx = 0;
       let minFSpot = this.openSet[0];
-      for (let i = 0; i < this.openSet.length; i++) {
+      for (let i = 1; i < this.openSet.length; i++) {
         const spot = this.openSet[i];
         if (spot.f < minFSpot.f) {
+          minFSpot = spot;
+          minFIdx = i;
+        } else if (spot.f === minFSpot.f && spot.distanceToSpot(this.end) < minFSpot.distanceToSpot(this.end)) {
           minFSpot = spot;
           minFIdx = i;
         }
@@ -51,7 +54,7 @@ export class AStar {
       }
       this.shortestPathToAct = this.constructPath(minFSpot);
 
-      this.openSet.splice(minFSpot, 1);
+      this.openSet.splice(minFIdx, 1);
       this.closedSet.push(minFSpot);
 
       const neighbours = minFSpot.getNeighbours();
@@ -60,11 +63,10 @@ export class AStar {
           continue; // already done
 
         const tentativeGScore = minFSpot.g + minFSpot.distanceToSpot(neighbour);
-        if (tentativeGScore >= neighbour.g)
+        if (tentativeGScore >= neighbour.g && this.openSet.includes(neighbour))
           continue; // not a better path
 
-        if (!this.openSet.includes(neighbour))
-          this.openSet.push(neighbour);
+        this.openSet.push(neighbour);
 
         neighbour.g = tentativeGScore;
         neighbour.h = this.heuristicCostEstimate(neighbour);
@@ -74,6 +76,17 @@ export class AStar {
     }
   }
 
+  drawPath(ctx, path, color) {
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(path[0].pos.x + 0.5, path[0].pos.y + 0.5);
+    for (const spot of path) {
+      ctx.lineTo(spot.pos.x + 0.5, spot.pos.y + 0.5);
+      // spot.draw(ctx,color);
+    }
+    ctx.stroke();
+  }
+
   draw(ctx) {
     for (const spot of this.closedSet) {
       spot.draw(ctx, 'red');
@@ -81,16 +94,12 @@ export class AStar {
     for (const spot of this.openSet) {
       spot.draw(ctx, 'green');
     }
-    if (this.shortestPathToAct) {
-      for (const spot of this.shortestPathToAct) {
-        spot.draw(ctx, 'purple');
-      }
-    }
-    if (this.shortestPathToEnd) {
-      for (const spot of this.shortestPathToEnd) {
-        spot.draw(ctx, 'blue');
-      }
-    }
+    ctx.lineWidth = 0.4;
+    if (this.shortestPathToAct)
+      this.drawPath(ctx, this.shortestPathToAct, 'purple');
+
+    if (this.shortestPathToEnd)
+      this.drawPath(ctx, this.shortestPathToEnd, 'blue');
   }
 
 }

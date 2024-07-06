@@ -34,7 +34,7 @@ const update = () => {
 
   ctx.fillStyle = "white";
   ctx.strokeStyle = "white";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1;
 
   if (worldUpdated) {
     worldUpdated = false;
