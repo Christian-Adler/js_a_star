@@ -1,3 +1,6 @@
+import {AStar} from "./astar.mjs";
+import {World} from "./world.mjs";
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
@@ -21,6 +24,9 @@ const updateWorldSettings = () => {
 
 updateWorldSettings();
 
+const world = new World();
+const aStar = new AStar(world.getStart(), world.getEnd());
+
 const update = () => {
 
   ctx.fillStyle = "white";
@@ -33,11 +39,14 @@ const update = () => {
   ctx.clearRect(0, 0, worldWidth, worldHeight);
 
 
-  // ctx.save();
+  ctx.save();
   // ctx.translate(10, 0);
 
+  world.scale(ctx, worldWidth, worldHeight);
+  world.draw(ctx);
+  aStar.draw(ctx);
 
-  // ctx.restore();
+  ctx.restore();
 
 
   updateWorldSettings();
