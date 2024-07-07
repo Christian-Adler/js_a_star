@@ -3,7 +3,7 @@ import {Vector} from "./vector.mjs";
 
 export class World {
   constructor() {
-    this.cols = 50;
+    this.cols = 150;
     this.rows = 50;
     this.grid = new Array(this.cols);
 
@@ -17,10 +17,10 @@ export class World {
       }
     }
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < this.cols * this.rows / 2.5; i++) {
       const col = Math.floor(Math.random() * this.cols);
       const row = Math.floor(Math.random() * this.rows);
-      if (col === this.cols - 1 && row === this.cols - 1 || col === 0 && row === 0)
+      if (col === this.cols - 1 && row === this.rows - 1 || col === 0 && row === 0)
         continue;
       this.grid[col][row] = undefined;
     }
