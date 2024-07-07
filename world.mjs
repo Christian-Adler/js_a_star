@@ -31,19 +31,16 @@ export class World {
         const actSpot = this.grid[c][r];
         if (!actSpot)
           continue;
-        let spot = this.getSpot(c - 1, r);
-        if (spot)
-          actSpot.addNeighbour(spot);
-        spot = this.getSpot(c + 1, r);
-        if (spot)
-          actSpot.addNeighbour(spot);
 
-        spot = this.getSpot(c, r - 1);
-        if (spot)
-          actSpot.addNeighbour(spot);
-        spot = this.getSpot(c, r + 1);
-        if (spot)
-          actSpot.addNeighbour(spot);
+        for (let x = -1; x <= 1; x++) {
+          for (let y = -1; y <= 1; y++) {
+            if (x === 0 && y === 0)
+              continue;
+            let spot = this.getSpot(c + x, r + y);
+            if (spot)
+              actSpot.addNeighbour(spot);
+          }
+        }
       }
     }
   }

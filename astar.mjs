@@ -75,6 +75,7 @@ export class AStar {
 
   drawPath(ctx, path, color) {
     ctx.strokeStyle = color;
+    ctx.lineCap = "round";
     ctx.beginPath();
     ctx.moveTo(path[0].pos.x + 0.5, path[0].pos.y + 0.5);
     for (const spot of path) {
