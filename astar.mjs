@@ -13,8 +13,8 @@ export class AStar {
   }
 
   heuristicCostEstimate(spot) {
-    return spot.manhattenDistanceToSpot(this.end);
-    // return spot.distanceToSpot(this.end);
+    // return spot.manhattenDistanceToSpot(this.end);
+    return spot.distanceToSpot(this.end);
   }
 
   constructPath(spot) {
