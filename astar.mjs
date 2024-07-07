@@ -40,9 +40,6 @@ export class AStar {
         if (spot.f < minFSpot.f) {
           minFSpot = spot;
           minFIdx = i;
-        } else if (spot.f === minFSpot.f && spot.distanceToSpot(this.end) < minFSpot.distanceToSpot(this.end)) {
-          minFSpot = spot;
-          minFIdx = i;
         }
       }
 
@@ -89,10 +86,10 @@ export class AStar {
 
   draw(ctx) {
     for (const spot of this.closedSet) {
-      spot.draw(ctx, 'red');
+      spot.draw(ctx, 'rgb(6,0,99)');
     }
     for (const spot of this.openSet) {
-      spot.draw(ctx, 'green');
+      spot.draw(ctx, 'rgb(18,88,186)');
     }
     ctx.lineWidth = 0.4;
     if (this.shortestPathToAct)
