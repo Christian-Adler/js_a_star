@@ -1,5 +1,6 @@
 import {AStar} from "./astar.mjs";
-import {World} from "./world.mjs";
+import {WorldRect} from "./worldrect.mjs";
+import {WorldHex} from "./worldhex.mjs";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
@@ -24,7 +25,9 @@ const updateWorldSettings = () => {
 
 updateWorldSettings();
 
-const world = new World();
+const useRect = false;
+const allowDiagonalInRect = true;
+const world = useRect ? new WorldRect(allowDiagonalInRect) : new WorldHex();
 const aStar = new AStar(world.getStart(), world.getEnd());
 
 const slow = false;
@@ -43,7 +46,6 @@ const update = () => {
 
 
   ctx.save();
-  // ctx.translate(10, 0);
 
   world.scale(ctx, worldWidth, worldHeight);
   world.draw(ctx);

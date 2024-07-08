@@ -24,10 +24,14 @@ export class Spot {
     return this.pos.manhattenDistance(other.pos);
   }
 
+  calcPos() {
+    return this.pos.clone().add(0.5);
+  }
+
   draw(ctx, optColor = "white") {
     // ctx.lineWidth = 0.1;
     ctx.beginPath()
-    ctx.rect(this.pos.x + 0.1, this.pos.y + 0.1, 0.8, 0.8);
+    ctx.arc(this.pos.x, this.pos.y, 0.4, 0, Math.PI * 2);
     if (optColor) {
       ctx.fillStyle = optColor;
       ctx.fill();

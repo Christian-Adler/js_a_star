@@ -4,6 +4,10 @@ class Vector {
     this.y = y;
   }
 
+  toString() {
+    return `(${this.x},${this.y})`;
+  }
+
   isZero() {
     return this.x === 0 && this.y === 0;
   }
@@ -32,13 +36,13 @@ class Vector {
 
   add(xVal, yVal) {
     this.x += xVal;
-    this.y += yVal;
+    this.y += (typeof yVal === 'number') ? yVal : xVal;
     return this;
   }
 
   sub(xVal, yVal) {
     this.x -= xVal;
-    this.y -= yVal;
+    this.y -= (typeof yVal === 'number') ? yVal : xVal;
     return this;
   }
 
